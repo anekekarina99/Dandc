@@ -1,4 +1,4 @@
-from lis import LongestIncreasingSubsequence
+from lis_library import LongestIncreasingSubsequence
 
 if __name__ == "__main__":
     arr1 = [10, 22, 9, 33, 21, 50, 41, 60, 80]
@@ -8,6 +8,10 @@ if __name__ == "__main__":
     lis1 = LongestIncreasingSubsequence(arr1)
     lis2 = LongestIncreasingSubsequence(arr2)
     lis3 = LongestIncreasingSubsequence(arr3)
+
+    print("LIS untuk arr1 adalah:", lis1.find_lis())  # Output: [10, 22, 33, 50, 60, 80]
+    print("LIS untuk arr2 adalah:", lis2.find_lis())  # Output: [3, 10, 20]
+    print("LIS untuk arr3 adalah:", lis3.find_lis())  # 
 
     print("LIS untuk arr1 adalah:", lis1.calculate_lis())  # Output: [10, 22, 33, 50, 60, 80]
     print("LIS untuk arr2 adalah:", lis2.calculate_lis())  # Output: [3, 10, 20]

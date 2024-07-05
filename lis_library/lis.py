@@ -1,10 +1,14 @@
+import bisect
+
 class LongestIncreasingSubsequence:
     def __init__(self, sequence):
         self.sequence = sequence
         self.n = len(sequence)
         self.pred = [0] * self.n
         self.result = []
+        self.lis_sequence = []
 
+    # Fungsi Divide and Conquer
     def calculate_lis(self):
         def lis_util(start, end):
             if start == end:
@@ -52,6 +56,42 @@ class LongestIncreasingSubsequence:
         for i in range(1, len(combined_indices)):
             if self.sequence[combined_indices[i]] > self.sequence[combined_indices[i - 1]]:
                 self.pred[combined_indices[i]] = combined_indices[i - 1]
+
+    # Fungsi Binary Search Tree
+    def find_lis(self):
+        lis_indices = []  # This will store the indices of the LIS elements
+        predecessors = [-1] * self.n  # This will store the predecessors of each element in the LIS
+
+        for i, num in enumerate(self.sequence):
+            pos = bisect.bisect_left(self.lis_sequence, num)
+            
+            # If pos is equal to the length of lis_sequence, it means num is greater than all elements in lis_sequence
+            if pos == len(self.lis_sequence):
+                self.lis_sequence.append(num)
+            else:
+                self.lis_sequence[pos] = num
+
+            # Update predecessors
+            if pos > 0:
+                predecessors[i] = lis_indices[pos - 1]
+            
+            # Update lis_indices
+            if pos == len(lis_indices):
+                lis_indices.append(i)
+            else:
+                lis_indices[pos] = i
+
+        # Reconstruct the LIS from lis_indices
+        lis_result = []
+        k = lis_indices[-1]
+        for _ in range(len(self.lis_sequence)):
+            lis_result.append(self.sequence[k])
+            k = predecessors[k]
+
+        lis_result.reverse()
+        self.result = lis_result
+        self.pred = predecessors
+        return self.result
 
     def get_lis_length(self):
         return len(self.result)
